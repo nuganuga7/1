@@ -1,0 +1,42 @@
+[
+  {
+    "name": "광양 대봉",
+    "description": "10kg",
+    "price": "34,000원",
+    "image": "",
+    "reference": "persimmon",
+    "status": "selling",
+    "timeSale": true,
+    "orderUrl": ""
+  },
+  {
+    "name": "겨울 복숭아",
+    "description": "설송아 · 설리 · 설아 · 설도\n2kg · 6과",
+    "price": "23,000원",
+    "image": "",
+    "reference": "peach",
+    "status": "selling",
+    "timeSale": false,
+    "orderUrl": ""
+  },
+  {
+    "name": "캘리포니아 허니듀 멜론",
+    "description": "12kg · 5수",
+    "price": "25,000원",
+    "image": "",
+    "reference": "melon",
+    "status": "selling",
+    "timeSale": false,
+    "orderUrl": ""
+  },
+  {
+    "name": "겨울 복숭아",
+    "description": "4kg · 16과 내외",
+    "price": "33,000원",
+    "image": "",
+    "reference": "peach",
+    "status": "selling",
+    "timeSale": false,
+    "orderUrl": ""
+  }
+]

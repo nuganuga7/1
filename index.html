@@ -24,11 +24,16 @@
     .deal-end{width:100%;margin:0;color:#68747a;font-size:13px}
     .empty-state{padding:25px 16px;border:1px dashed #cbd1d4;text-align:center;color:#68747a;border-radius:8px}
     @media(max-width:440px){.search-form{gap:6px;flex-wrap:wrap}.search-form input{flex-basis:60%}.search-form button{padding:12px 15px}.deal-heading{gap:10px}.countdown strong{font-size:19px}}
+    .card{text-align:left;font:inherit;color:inherit;border-radius:8px}
+    .card .photo{display:block;aspect-ratio:272/220;overflow:hidden;background:#f6f3e9;position:relative}
+    .card .photo>img,.card .photo>svg{display:block;width:100%;height:100%;object-fit:cover}
+    .card .photo>svg{aspect-ratio:auto}
+    .card-body{display:block;padding:16px}.card-name{display:block;font-size:19px;font-weight:700;line-height:1.45}.card-info{display:block;color:#637078;font-size:14px;margin:8px 0;white-space:pre-line}.card-price{display:block;font-size:19px;font-weight:700;color:#16323d;white-space:pre-line;line-height:1.5}.badge{position:absolute;left:10px;top:10px;border-radius:5px;background:#16323d;color:white;padding:6px 10px;font-size:13px}.placeholder{display:grid;height:100%;place-items:center;color:#66745a;font-size:16px}.buy-link{display:block;background:#16323d;color:#fff;text-decoration:none;padding:14px;text-align:center;border-radius:8px}.load-error{padding:20px;background:#fff4cd}footer a{color:#52636b}.error-retry{margin-left:12px;padding:8px 12px} @media(max-width:440px){.card-body{padding:12px}.card-name,.card-price{font-size:16px}}
   </style>
 </head>
 <body>
   <main>
-    <h1>11월 제철 과일</h1>
+    <h1 id="site-title">11월 제철 과일</h1>
     <form class="search-form" id="search-form" role="search">
       <label class="sr-only" for="search-input">상품 검색</label>
       <input id="search-input" type="search" placeholder="과일 이름을 검색하세요" autocomplete="off">
@@ -36,41 +41,17 @@
       <button class="reset" id="search-reset" type="button" hidden>전체 보기</button>
     </form>
     <p class="search-status" id="search-status" role="status">상품명으로 검색해 보세요. 예: 대봉, 복숭아, 멜론</p>
-    <section aria-label="11월 제철 과일 상품">
-      <div class="products">
-        <button class="card" type="button" data-product="persimmon" aria-label="광양 대봉 10kg 34,000원 상세 보기">
-          <svg viewBox="34 158 272 247" aria-hidden="true"><image href="assets/reference.png" width="1304" height="726"/></svg>
-          <span class="sr-only">광양 대봉 10kg · 34,000원</span>
-        </button>
-        <button class="card" type="button" data-product="peach" aria-label="겨울 복숭아 상품 및 가격 상세 보기">
-          <svg viewBox="345 158 272 247" aria-hidden="true"><image href="assets/reference.png" width="1304" height="726"/></svg>
-          <span class="sr-only">겨울 복숭아 · 2kg 6과 23,000원 · 4kg 16과 내외 33,000원</span>
-        </button>
-        <button class="card" type="button" data-product="melon" aria-label="캘리포니아 허니듀 멜론 12kg 5수 25,000원 상세 보기">
-          <svg viewBox="655 158 272 247" aria-hidden="true"><image href="assets/reference.png" width="1304" height="726"/></svg>
-          <span class="sr-only">캘리포니아 허니듀 멜론 · 12kg 5수 · 25,000원</span>
-        </button>
-        <button class="card" type="button" data-product="peach" aria-label="겨울 복숭아 사진 및 상품 상세 보기">
-          <svg viewBox="965 158 272 247" aria-hidden="true"><image href="assets/reference.png" width="1304" height="726"/></svg>
-          <span class="sr-only">겨울 복숭아 상품 사진</span>
-        </button>
-      </div>
-    </section>
-    <section aria-labelledby="deal-title">
+    <section aria-label="제철 과일 상품"><div class="products" id="catalog"></div></section>
+    <section aria-labelledby="deal-title" id="sale-section" hidden>
       <div class="deal-heading">
         <h2 id="deal-title">타임세일 상품</h2>
         <div class="countdown"><span id="countdown-label">남은 시간</span><strong id="countdown" role="timer" aria-live="off">--:--:--</strong></div>
         <p class="deal-end">종료: <time id="sale-end"></time> (한국시간)</p>
       </div>
-      <div class="products">
-        <button class="card" type="button" data-product="persimmon" aria-label="타임딜 광양 대봉 10kg 34,000원 상세 보기">
-          <svg viewBox="34 158 272 247" aria-hidden="true"><image href="assets/reference.png" width="1304" height="726"/></svg>
-          <span class="sr-only">타임딜 · 광양 대봉 10kg · 34,000원</span>
-        </button>
-      </div>
+      <div class="products" id="sale-products"></div>
     </section>
     <p class="empty-state" id="search-empty" hidden>검색 결과가 없습니다. 다른 상품명을 입력해 주세요.</p>
-    <footer>상품 이미지를 누르면 상세 정보를 확인할 수 있습니다.<br>상품과 가격은 안내 이미지 기준이며, 주문·결제 기능은 준비 중입니다.</footer>
+    <footer><p id="site-notice">상품 이미지를 누르면 상세 정보를 확인할 수 있습니다.</p><a href="admin/">관리자</a></footer>
   </main>
   <dialog id="product-dialog" aria-labelledby="product-title">
     <button class="close" type="button" aria-label="상세 정보 닫기">×</button>
@@ -78,79 +59,8 @@
     <h2 id="product-title"></h2>
     <p id="product-description"></p>
     <p class="price" id="product-price"></p>
-    <p class="notice">안내 이미지에 기재된 상품 정보입니다.<br>현재 온라인 주문·결제는 연결되어 있지 않습니다.</p>
+    <a id="product-buy" class="buy-link" hidden target="_blank" rel="noopener noreferrer">상품 주문하기</a><p class="notice" id="product-notice"></p>
   </dialog>
-  <script>
-    const products = {
-      persimmon: { name: '광양 대봉', description: '10kg', price: '34,000원' },
-      peach: { name: '겨울 복숭아', description: '설송아 · 설리 · 설아 · 설도', price: '2kg · 6과  23,000원\n4kg · 16과 내외  33,000원' },
-      melon: { name: '캘리포니아 허니듀 멜론', description: '12kg · 5수', price: '25,000원' }
-    };
-    // 고정 종료 시각: 새로고침하거나 다시 방문해도 시간이 초기화되지 않습니다.
-    const SALE_END_AT = '2026-10-31T00:00:00+09:00';
-    function countdownText(endTime, now) {
-      const remaining = Math.max(0, Math.ceil((endTime - now) / 1000));
-      if (!remaining) return '종료';
-      const hours = Math.floor(remaining / 3600);
-      const minutes = Math.floor(remaining % 3600 / 60);
-      const seconds = remaining % 60;
-      return [hours, minutes, seconds].map(n => String(n).padStart(2, '0')).join(':');
-    }
-    const endTime = Date.parse(SALE_END_AT);
-    const saleEnd = document.getElementById('sale-end');
-    saleEnd.dateTime = SALE_END_AT;
-    saleEnd.textContent = new Intl.DateTimeFormat('ko-KR', {
-      timeZone: 'Asia/Seoul', month: 'long', day: 'numeric',
-      hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
-    }).format(endTime);
-    function updateCountdown() {
-      const text = countdownText(endTime, Date.now());
-      document.getElementById('countdown').textContent = text;
-      document.getElementById('countdown-label').textContent = text === '종료' ? '타임세일' : '남은 시간';
-      return text === '종료';
-    }
-    if (!updateCountdown()) {
-      const interval = setInterval(() => { if (updateCountdown()) clearInterval(interval); }, 1000);
-    }
-    const normalize = text => text.normalize('NFKC').toLocaleLowerCase('ko-KR').replace(/\s+/g, '');
-    function matchesProduct(product, query) {
-      return normalize(product.name + ' ' + product.description).includes(normalize(query));
-    }
-    const searchInput = document.getElementById('search-input');
-    const searchReset = document.getElementById('search-reset');
-    function applySearch() {
-      const query = searchInput.value.trim();
-      const matched = new Set();
-      document.querySelectorAll('[data-product]').forEach(card => {
-        const visible = matchesProduct(products[card.dataset.product], query);
-        card.hidden = !visible;
-        if (visible) matched.add(card.dataset.product);
-      });
-      document.getElementById('search-empty').hidden = matched.size > 0;
-      document.getElementById('search-status').textContent = query
-        ? '“' + query + '” 검색 결과: ' + matched.size + '개 상품'
-        : '상품명으로 검색해 보세요. 예: 대봉, 복숭아, 멜론';
-      searchReset.hidden = !query;
-    }
-    document.getElementById('search-form').addEventListener('submit', event => {
-      event.preventDefault(); applySearch();
-    });
-    searchInput.addEventListener('input', () => { if (!searchInput.value) applySearch(); });
-    searchReset.addEventListener('click', () => {
-      searchInput.value = ''; applySearch(); searchInput.focus();
-    });
-    const dialog = document.getElementById('product-dialog');
-    document.querySelectorAll('[data-product]').forEach(button => {
-      button.addEventListener('click', () => {
-        const product = products[button.dataset.product];
-        document.getElementById('product-title').textContent = product.name;
-        document.getElementById('product-description').textContent = product.description;
-        document.getElementById('product-price').textContent = product.price;
-        dialog.showModal();
-      });
-    });
-    dialog.querySelector('.close').addEventListener('click', () => dialog.close());
-    dialog.addEventListener('click', event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if(event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close(); } });
-  </script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
